@@ -1,0 +1,266 @@
+body {
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+	color: white;
+	font-family: 'Raleway', sans-serif;
+	font-size: 5em;
+	margin: 0;
+	min-width: 1330px;
+	padding: 0;
+}
+
+#robot {
+	height: 100%;
+	min-height: 860px;
+	position: absolute;
+}
+
+.shaper {
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+    float: left;
+    height: 100%;
+}
+
+#robotFace {
+	height: 100%;
+	float: left;
+	width: 17em;
+}
+
+#robotHead{
+	height: 6.5em;
+}
+
+.neckShaper{
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+	float: left;
+	width: 3em;
+}
+
+#robotHead {
+	background-image: url(../img/pageBackground.jpg);
+    background-size: 0.3em;
+    border-bottom-left-radius: 260px;
+    border-bottom-right-radius: 260px;
+}
+
+#robotMouth {
+	background-image: url(../img/pageBackground.jpg);
+    background-size: 0.3em;
+    border-bottom-left-radius: 130px;
+    border-bottom-right-radius: 130px;
+    float: left;
+    position: relative;
+    top: -4px;
+	width: 11em;
+}
+
+#topCenter {
+	margin: 0 auto;
+	width: 16em;
+	min-height: 460px;
+}
+
+#seasons,
+#blowUp {
+	align-items: center;
+	display: flex;
+	float: left;
+	height: 52vh;
+    justify-content: center;
+    min-height: 460px;
+    width: 46%;
+}
+
+#blowUp #blowUpDisplay{
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+	border-bottom-right-radius: 15px;
+	border-bottom-right-radius: 190px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 2px;
+	z-index: 1;
+}
+
+#tempBig,
+#sidebar {
+	color: #6A8FC4;
+	float: left;
+}
+
+#tempBig {
+	height: 60%;
+	width: 55%;
+	text-align: center;
+}
+
+#tempBig sup,
+.tempDegree {
+	font-size: 0.6em;
+}
+
+#sidebar{
+	height: 74%;
+	width: 45%;
+	display: flex;
+	flex-direction: column;
+	font-size: 0.2em;
+	justify-content: space-around;
+}
+
+#glasses {
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+	height: 44px;
+	float: left;
+	position: relative;
+	top: 250px;
+	width: 8%;
+}
+
+#seasons #seasonDisplay,
+#blowUpDisplay {
+	align-items: center;
+	display: flex;
+	height: 90%;
+	margin: 0 auto;
+	width: 100%;
+}
+
+#seasons .weatherViews {
+	display: block;
+	float: left;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	border-bottom-left-radius: 15px;
+	border-bottom-left-radius: 190px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 2px;
+}
+
+@-webkit-keyframes backdrop_roll {
+	from { right: 0px; }
+	to { right: 1496px;}
+}
+
+#img {
+	height: 100%;
+	opacity: 0.4;
+	width: 2084px;
+	background-image: url("../img/movingIce.jpg");
+	background-size: 19em;
+	position: relative;
+	-webkit-animation: backdrop_roll 40s linear infinite;
+	animation-play-state: ;
+}
+
+#img:hover {
+	opacity: 0.8;
+}
+
+#img {
+	border-bottom-left-radius: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 2px;
+}
+
+#city {
+	display: flex;
+	height: 98vh;
+	justify-content: center;
+	position: absolute;
+	width: 98vw;
+}
+
+#city input {
+    border: 5px solid;
+    border-radius: 14px;
+    color: #646D7B;
+	font-family: 'Raleway', sans-serif;
+    font-size: 3.4rem;
+    height: 1.4em;
+    position: relative;
+    text-align: center;
+    top: 432px;
+    z-index: 2;
+}
+
+#city input:focus {
+	color: #1A222E;
+	border-width: 10px;
+	outline: none;
+}
+
+#weekForecast {
+    clear: both;
+	height: 40vh;
+	position: relative;
+    margin: 0 auto;
+    min-height: 360px;
+    top: 0.3em;
+    width: 98vw;
+}
+
+#weekForecastCenter {
+	margin: 0 auto;
+	height: 100%;
+	width: 10.20em;
+}
+
+.weekResults {
+	background-image: url(../img/tempBackground.jpg);
+    background-size: 0.3em;
+    float: left;
+    height: 100%;
+    margin: 0.02em;
+    position: relative;
+    top: 0.2em;
+    width: 2em;
+}
+
+.resultsPlaceholder{
+	float: left;
+    height: 74%;
+    margin: 0.02em;
+    position: relative;
+    top: 0.2em;
+    width: 2em;
+}
+
+.weekDate {
+	color: #6A8FC4;
+	font-size: 0.2em;
+}
+
+.weekDateCenter {
+    align-items: center;
+    display: flex;
+	height: 0.5em;
+    justify-content: center;
+}
+
+.weekTemp {
+	color: #6A8FC4;
+	font-size: 0.35em;
+}
+
+.weekTempCenter {
+	display: flex;
+    justify-content: center;
+}
+
+.loading {
+	font-size: 0.6em;
+	display: none;
+}
+
+.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-size: 0.8em;
+}

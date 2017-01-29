@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather Robot</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/weather.css">
+	<link rel="icon" type="image/png" href="icon/sun.png" />
+</head>
+<body ng-cloak ng-app="myWeatherApp" ng-controller="myWeatherCtrl">
+<!-- <span class="loading">loading...</span> -->
+<div id="robot">
+	<div class="shaper"></div>
+	<div id="robotFace">
+		<div id="robotHead"></div>
+		<div class="neckShaper"></div>
+		<div id="robotMouth"></div>
+		<div class="neckShaper"></div>
+	</div>
+	<div class="shaper"></div>
+</div>
+
+<div id="city">
+	<input type="text" placeholder="city" ng-keydown="init($event)">
+</div>
+
+<div id="topCenter">
+	<div id="seasons">
+		<div id="seasonDisplay">
+			<div class="weatherViews"><div id="img"></div></div>
+		</div>
+	</div> <!-- #seasons end -->
+	<div id="glasses"></div>
+	<div id="blowUp">
+		<div id="blowUpDisplay">
+			<div id="tempBig"> {{ temperature }}<sup><sup>O</sup>F</sup></div>
+			<div id="sidebar">
+				<div>{{ cityName | lowercase}}</div>
+				<div>{{ date | date }}</div>
+				<div>feels like </span>{{ apparentTemperature }} <sup><sup>O</sup>F</sup></div>
+				<div>humidity = {{ humidity }}</div>
+				<div>cloud cover = {{ cloudCover }}</div>
+				<!-- <div>pressure = {{ pressure }}atm</div> -->
+			</div> <!-- #sidebar end -->
+		</div> <!-- #blowUpDisplay end -->
+	</div> <!-- #blowUp end -->
+</div> <!-- #topCenter end -->
+
+<div id="weekForecast" data="notReady">
+	<div id="weekForecastCenter">
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="1">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[0] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						{{ temperatureMin[0] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						{{ temperatureMax[0] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[0] }}</div>
+						</div>
+						<br>
+						<div class="center">
+							<span>cloudCover</span>
+							<div>{{ cloudCoverWeek[0] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="2">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[1] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						{{ temperatureMin[1] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						{{ temperatureMax[1] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[1] }}</div>
+						</div>
+						<br>
+						<div class="center">
+							<span>cloudCover</span>
+							<div>{{ cloudCoverWeek[1] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="3">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[2] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						{{ temperatureMin[2] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						{{ temperatureMax[2] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[2] }}</div>
+						</div>
+						<br>
+						<div class="center">
+							<span>cloudCover</span>
+							<div>{{ cloudCoverWeek[2] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="4">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[3] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						{{ temperatureMin[3] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						{{ temperatureMax[3] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[3] }}</div>
+						</div>
+						<br>
+						<div class="center">
+							<span>cloudCover</span>
+							<div>{{ cloudCoverWeek[3] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="5">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[4] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						{{ temperatureMin[4] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						{{ temperatureMax[4] }}
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[4] }}</div>
+						</div>
+						<br>
+						<div class="center">
+							<span>cloudCover</span>
+							<div>{{ cloudCoverWeek[4] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+	</div> <!-- #weekForecastCenter end -->
+</div> <!-- #weekForecast end -->
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script type="text/javascript" src="js/weatherAng.js"></script>
+<script type="text/javascript" src="js/weather.js"></script>
+</body>
+</html>
