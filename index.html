@@ -7,14 +7,19 @@
 	<link rel="icon" type="image/png" href="icon/sun.png" />
 </head>
 <body ng-cloak ng-app="myWeatherApp" ng-controller="myWeatherCtrl">
-<!-- <span class="loading">loading...</span> -->
 <div id="robot">
 	<div class="shaper"></div>
 	<div id="robotFace">
 		<div id="robotHead"></div>
-		<div class="neckShaper"></div>
+		<div class="neckShaper">
+			<div class="talkbox">
+				<span id="talk"></span>
+			</div>
+		</div>
 		<div id="robotMouth"></div>
-		<div class="neckShaper"></div>
+		<div class="neckShaper">
+			<span class="today">{{month}} {{day}}, {{year}}</span><br><span class="today">{{hour}}:{{min}}</span>
+		</div>
 	</div>
 	<div class="shaper"></div>
 </div>
@@ -38,7 +43,7 @@
 				<div>{{ date | date }}</div>
 				<div>feels like </span>{{ apparentTemperature }} <sup><sup>O</sup>F</sup></div>
 				<div>humidity = {{ humidity }}</div>
-				<div>cloud cover = {{ cloudCover }}</div>
+				<div>{{ cloudCover }}</div>
 				<!-- <div>pressure = {{ pressure }}atm</div> -->
 			</div> <!-- #sidebar end -->
 		</div> <!-- #blowUpDisplay end -->
@@ -54,9 +59,9 @@
 				</div>
 				<div class="weekTempCenter">
 					<span class="weekTemp">
-						{{ temperatureMin[0] }}
+						<span class="low">{{ temperatureMin[0] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup> - 
-						{{ temperatureMax[0] }}
+						<span class="high">{{ temperatureMax[0] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup>
 						<br><br>
 						<div class="center">
@@ -64,8 +69,7 @@
 							<div>{{ humidityWeek[0] }}</div>
 						</div>
 						<br>
-						<div class="center">
-							<span>cloudCover</span>
+						<div class="cc center">
 							<div>{{ cloudCoverWeek[0] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
@@ -79,9 +83,9 @@
 				</div>
 				<div class="weekTempCenter">
 					<span class="weekTemp">
-						{{ temperatureMin[1] }}
+						<span class="low">{{ temperatureMin[1] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup> - 
-						{{ temperatureMax[1] }}
+						<span class="high">{{ temperatureMax[1] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup>
 						<br><br>
 						<div class="center">
@@ -89,8 +93,7 @@
 							<div>{{ humidityWeek[1] }}</div>
 						</div>
 						<br>
-						<div class="center">
-							<span>cloudCover</span>
+						<div class="cc center">
 							<div>{{ cloudCoverWeek[1] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
@@ -104,9 +107,9 @@
 				</div>
 				<div class="weekTempCenter">
 					<span class="weekTemp">
-						{{ temperatureMin[2] }}
+						<span class="low">{{ temperatureMin[2] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup> - 
-						{{ temperatureMax[2] }}
+						<span class="high">{{ temperatureMax[2] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup>
 						<br><br>
 						<div class="center">
@@ -114,8 +117,7 @@
 							<div>{{ humidityWeek[2] }}</div>
 						</div>
 						<br>
-						<div class="center">
-							<span>cloudCover</span>
+						<div class="cc center">
 							<div>{{ cloudCoverWeek[2] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
@@ -129,9 +131,9 @@
 				</div>
 				<div class="weekTempCenter">
 					<span class="weekTemp">
-						{{ temperatureMin[3] }}
+						<span class="low">{{ temperatureMin[3] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup> - 
-						{{ temperatureMax[3] }}
+						<span class="high">{{ temperatureMax[3] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup>
 						<br><br>
 						<div class="center">
@@ -139,8 +141,7 @@
 							<div>{{ humidityWeek[3] }}</div>
 						</div>
 						<br>
-						<div class="center">
-							<span>cloudCover</span>
+						<div class="cc center">
 							<div>{{ cloudCoverWeek[3] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
@@ -154,9 +155,9 @@
 				</div>
 				<div class="weekTempCenter">
 					<span class="weekTemp">
-						{{ temperatureMin[4] }}
+						<span class="low">{{ temperatureMin[4] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup> - 
-						{{ temperatureMax[4] }}
+						<span class="high">{{ temperatureMax[4] }}</span>
 						<sup class="tempDegree"><sup>O</sup>F</sup>
 						<br><br>
 						<div class="center">
@@ -164,8 +165,7 @@
 							<div>{{ humidityWeek[4] }}</div>
 						</div>
 						<br>
-						<div class="center">
-							<span>cloudCover</span>
+						<div class="cc center">
 							<div>{{ cloudCoverWeek[4] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
@@ -174,12 +174,6 @@
 		</div> <!-- .resultsPlaceholder end -->
 	</div> <!-- #weekForecastCenter end -->
 </div> <!-- #weekForecast end -->
-
-
-
-
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>

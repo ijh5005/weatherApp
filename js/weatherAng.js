@@ -2,6 +2,12 @@ var weatherApp = angular.module('myWeatherApp', []);
 
 weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 
+	$scope.monthList = ["Jan", "Feb", "Mar", "April", "May", "Jun", "July", "Sep", "Oct", "Nov", "Dec"]
+	$scope.day = new Date().getDate()
+	$scope.year = new Date().getFullYear();
+	$scope.month = $scope.monthList[ new Date().getMonth() ];
+	$scope.hour = new Date().getHours()
+	$scope.min = new Date().getMinutes();
 	$scope.cityName = "city";
 	$scope.place_id = "";
 	$scope.lat = "";
@@ -11,7 +17,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 	$scope.date = "";
 	$scope.humidity = "?";
 	$scope.pressure = "";
-	$scope.cloudCover = "?";
+	$scope.cloudCover = "";
 	$scope.temperatureMax = [];
 	$scope.temperatureMin = [];
 	$scope.dateWeek = [];
@@ -67,24 +73,40 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 	};
 
 	var setWeather = function (response) {
-		console.log(response.data);
-		$(".loading").css("display", "none");
 		$("#weekForecast").attr("data", "ready");
-
+		$("#talk").html("");
+		var cloudCoverAnalysisOne = response.data.currently.cloudCover;
 		$scope.temperature = response.data.currently.temperature;
 		$scope.apparentTemperature = response.data.currently.apparentTemperature;
 		$scope.date = response.data.currently.date;
-		$scope.humidity = response.data.currently.humidity;
+		$scope.humidity = (response.data.currently.humidity * 100) + "%";
 		$scope.pressure = response.data.currently.pressure;
-		$scope.cloudCover = response.data.currently.cloudCover;
+		if (cloudCoverAnalysisOne < 0.25){
+			$scope.cloudCover = "Sunny";
+		} else if (cloudCoverAnalysisOne < 0.50){
+			$scope.cloudCover = "Party Cloudy";
+		} else if (cloudCoverAnalysisOne < 0.69){
+			$scope.cloudCover = "Mostly Cloudy";
+		} else {
+			$scope.cloudCover = "Cloudy";
+		}
 
 		for( var i = 0; i < 5; i++){
+			var cloudCoverAnalysis = response.data.futureForecasts[i].cloudCover;
 			$scope.temperatureMax[i] = response.data.futureForecasts[i].temperatureMax;
 			$scope.temperatureMin[i] = response.data.futureForecasts[i].temperatureMin;
 			$scope.dateWeek[i] = response.data.futureForecasts[i].date;
-			$scope.humidityWeek[i] = response.data.futureForecasts[i].humidity;
+			$scope.humidityWeek[i] = (response.data.futureForecasts[i].humidity * 100) + "%";
 			$scope.pressureWeek[i] = response.data.futureForecasts[i].pressure;
-			$scope.cloudCoverWeek[i] = response.data.futureForecasts[i].cloudCover;
+			if (cloudCoverAnalysis < 0.25){
+				$scope.cloudCoverWeek[i] = "Sunny";
+			} else if (cloudCoverAnalysis < 0.50){
+				$scope.cloudCoverWeek[i] = "Party Cloudy";
+			} else if (cloudCoverAnalysis < 0.69){
+				$scope.cloudCoverWeek[i] = "Mostly Cloudy";
+			} else {
+				$scope.cloudCoverWeek[i] = "Cloudy";
+			}
 		}
 	};
 
