@@ -33,7 +33,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 			$(".questionTemp").css("display", "none");
 			$http({
 				method : "GET",
-				url : "http://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.cityName
+				url : "https://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.cityName
 			  }).then( getId, myError )
 				.then( getCoordinates, myError );
 		}
@@ -50,7 +50,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 
 		$http({
 			method : "GET",
-			url : "http://chathamweatherapi.azurewebsites.net/api/cities/" + $scope.place_id
+			url : "https://chathamweatherapi.azurewebsites.net/api/cities/" + $scope.place_id
 		}).then( setCoordinates, myError )
 		  .then( getWeather, myError );
 
@@ -67,7 +67,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 
 		$http({
 			method : "GET",
-			url : "http://chathamweatherapi.azurewebsites.net/api/forecast?latitude=" + $scope.lat + "&longitude=" + $scope.lng + "&source=WORLD_WEATHER"
+			url : "https://chathamweatherapi.azurewebsites.net/api/forecast?latitude=" + $scope.lat + "&longitude=" + $scope.lng + "&source=WORLD_WEATHER"
 		}).then( setWeather, myError );
 		
 	};
