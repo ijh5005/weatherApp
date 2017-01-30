@@ -63,6 +63,13 @@ $(document).ready( function () {
 	}); // end: $("input").keydown()
 ////////// animation goal complete //////////
 
+// adjust min if less then 10
+//cache minutes text
+var minText = $("#minCheck").text();
+if( minText < 10 ){
+	//add a zero if the number is less than 10 -> preserves military time
+	$("#minCheck").text("0"+minText);
+}
 
 //hide all blank weather data in page load
 	$(".weekResults").children().hide();

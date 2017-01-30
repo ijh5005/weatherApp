@@ -1,7 +1,7 @@
 var weatherApp = angular.module('myWeatherApp', []);
 
-weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
-
+weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
+	//vars
 	$scope.monthList = ["Jan", "Feb", "Mar", "April", "May", "Jun", "July", "Sep", "Oct", "Nov", "Dec"]
 	$scope.day = new Date().getDate()
 	$scope.year = new Date().getFullYear();
@@ -24,16 +24,19 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 	$scope.humidityWeek = [];
 	$scope.pressureWeek = [];
 	$scope.cloudCoverWeek = [];
+	//send ajax request for the weater if the enter key is preseed
 	$scope.init = function ($event) {
-
+		//the keycode for (enter) key is (13)
 		if ($event.keyCode ==  13) {
+			//cache the input value to use in the request link
 			var city = $("#city input").val();
+			//set the input value to the city
 			$scope.cityName = city;
 
-			$(".questionTemp").css("display", "none");
+			//send the ajax request to recieve the city id
 			$http({
 				method : "GET",
-				url : "https://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.cityName
+				url : "http://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.cityName
 			  }).then( getId, myError )
 				.then( getCoordinates, myError );
 		}
@@ -41,46 +44,50 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 	};
 
 	var getId = function (response) {
-
+		//get the city id
 		$scope.place_id = response.data.predictions[0].place_id;
-
 	};
 
 	var getCoordinates = function () {
-
+		//use the city id to get the latitude(lat) and longitude(lng) from the request json
 		$http({
 			method : "GET",
-			url : "https://chathamweatherapi.azurewebsites.net/api/cities/" + $scope.place_id
+			url : "http://chathamweatherapi.azurewebsites.net/api/cities/" + $scope.place_id
 		}).then( setCoordinates, myError )
 		  .then( getWeather, myError );
 
 	};
 
 	var setCoordinates = function (response) {
-
+		//set the latitude(lat) and longitude(lng)
 		$scope.lat = response.data.result.geometry.location.lat;
 		$scope.lng = response.data.result.geometry.location.lng;
 
 	};
 
 	var getWeather = function (response) {
-
+		//use the latitude(lat) and longitude(lng) to get the weather information from the request json
 		$http({
 			method : "GET",
-			url : "https://chathamweatherapi.azurewebsites.net/api/forecast?latitude=" + $scope.lat + "&longitude=" + $scope.lng + "&source=WORLD_WEATHER"
+			url : "http://chathamweatherapi.azurewebsites.net/api/forecast?latitude=" + $scope.lat + "&longitude=" + $scope.lng + "&source=WORLD_WEATHER"
 		}).then( setWeather, myError );
 		
 	};
 
 	var setWeather = function (response) {
+		//indicate that the request for the weather information has come in
 		$("#weekForecast").attr("data", "ready");
+		//clear the dialogue
 		$("#talk").html("");
+		//cache the cloud cover -> used to indicate how cloudy it is
 		var cloudCoverAnalysisOne = response.data.currently.cloudCover;
+		//set the corresponding values from the weather json request
 		$scope.temperature = response.data.currently.temperature;
 		$scope.apparentTemperature = response.data.currently.apparentTemperature;
 		$scope.date = response.data.currently.date;
 		$scope.humidity = (response.data.currently.humidity * 100) + "%";
 		$scope.pressure = response.data.currently.pressure;
+		//use the cached cloud cover to indicate how cloudy it is
 		if (cloudCoverAnalysisOne < 0.25){
 			$scope.cloudCover = "Sunny";
 		} else if (cloudCoverAnalysisOne < 0.50){
@@ -91,13 +98,16 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 			$scope.cloudCover = "Cloudy";
 		}
 
+		//set the values for the next five days
 		for( var i = 0; i < 5; i++){
+			//cache the cloud cover -> used to indicate how cloudy it is
 			var cloudCoverAnalysis = response.data.futureForecasts[i].cloudCover;
 			$scope.temperatureMax[i] = response.data.futureForecasts[i].temperatureMax;
 			$scope.temperatureMin[i] = response.data.futureForecasts[i].temperatureMin;
 			$scope.dateWeek[i] = response.data.futureForecasts[i].date;
 			$scope.humidityWeek[i] = (response.data.futureForecasts[i].humidity * 100) + "%";
 			$scope.pressureWeek[i] = response.data.futureForecasts[i].pressure;
+			//use the cached cloud cover to indicate how cloudy it is
 			if (cloudCoverAnalysis < 0.25){
 				$scope.cloudCoverWeek[i] = "Sunny";
 			} else if (cloudCoverAnalysis < 0.50){
@@ -110,10 +120,10 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http) {
 		}
 	};
 
-	var myError = function (response) {
-
+	//error handler
+	var myError = function (reason) {
+		$log.info(reason.data);
 		$("input").val("please enter a valid city");
-
 	};
 
 });
