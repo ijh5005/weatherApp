@@ -17,9 +17,7 @@
 			</div>
 		</div>
 		<div id="robotMouth"></div>
-		<div class="neckShaper">
-			<span class="today">{{month}} {{day}}, {{year}}</span><br><span class="today">{{hour}}:<span id="minCheck">{{min}}</span></span>
-		</div>
+		<div class="cheekShaper"></div>
 	</div>
 	<div class="shaper"></div>
 </div>
@@ -167,6 +165,30 @@
 						<br>
 						<div class="cc center">
 							<div>{{ cloudCoverWeek[4] }}</div>
+						</div>
+					</span> <!-- .weekTemp end -->
+				</div> <!-- .weekTempCenter end -->
+			</div> <!-- .weekResults end -->
+		</div> <!-- .resultsPlaceholder end -->
+		<div class="resultsPlaceholder">
+			<div class="weekResults" animating="false" data="6">
+				<div class="weekDateCenter">
+					<span class="weekDate">{{ dateWeek[5] | date }}</span>
+				</div>
+				<div class="weekTempCenter">
+					<span class="weekTemp">
+						<span class="low">{{ temperatureMin[5] }}</span>
+						<sup class="tempDegree"><sup>O</sup>F</sup> - 
+						<span class="high">{{ temperatureMax[5] }}</span>
+						<sup class="tempDegree"><sup>O</sup>F</sup>
+						<br><br>
+						<div class="center">
+							<span>humidity</span>
+							<div>{{ humidityWeek[5] }}</div>
+						</div>
+						<br>
+						<div class="cc center">
+							<div>{{ cloudCoverWeek[5] }}</div>
 						</div>
 					</span> <!-- .weekTemp end -->
 				</div> <!-- .weekTempCenter end -->

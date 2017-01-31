@@ -2,12 +2,6 @@ var weatherApp = angular.module('myWeatherApp', []);
 
 weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	//vars
-	$scope.monthList = ["Jan", "Feb", "Mar", "April", "May", "Jun", "July", "Sep", "Oct", "Nov", "Dec"]
-	$scope.day = new Date().getDate()
-	$scope.year = new Date().getFullYear();
-	$scope.month = $scope.monthList[ new Date().getMonth() ];
-	$scope.hour = new Date().getHours()
-	$scope.min = new Date().getMinutes();
 	$scope.cityName = "city";
 	$scope.place_id = "";
 	$scope.lat = "";
@@ -75,6 +69,8 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	};
 
 	var setWeather = function (response) {
+		//show the current weather
+		$("#blowUpDisplay").children().show();
 		//indicate that the request for the weather information has come in
 		$("#weekForecast").attr("data", "ready");
 		//clear the dialogue
@@ -99,7 +95,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		}
 
 		//set the values for the next five days
-		for( var i = 0; i < 5; i++){
+		for( var i = 0; i < 6; i++){
 			//cache the cloud cover -> used to indicate how cloudy it is
 			var cloudCoverAnalysis = response.data.futureForecasts[i].cloudCover;
 			$scope.temperatureMax[i] = response.data.futureForecasts[i].temperatureMax;

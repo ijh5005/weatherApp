@@ -73,6 +73,7 @@ if( minText < 10 ){
 
 //hide all blank weather data in page load
 	$(".weekResults").children().hide();
+	$("#blowUpDisplay").children().hide();
 
 //pause the sliding image onclick
 	$("#img").click( function () {
@@ -95,14 +96,12 @@ if( minText < 10 ){
 		var getRobotFaceHeight = $("#robotFace").height();
 		var getRobotHeadHeight = $("#robotHead").height();
 		var getShaperWidth = ( bodyWidth - getRobotFaceWidth ) / 2;
-		var getNeckShaperHeight = ( getRobotFaceHeight - getRobotHeadHeight );
+		var getCheekShaperHeight = ( getRobotFaceHeight - getRobotHeadHeight );
 		
 		//set the calculate widths
 		var setCityWidth = $("#city").css("width", setCityWidth + "px");
 		var setWeekForecastWidth = $("#weekForecast").css("width", bodyWidth + "px");
 		var setShaperWidth = $(".shaper").css("width", getShaperWidth + "px");
-		var setNeckShaperHeight = $(".neckShaper").css("height", getNeckShaperHeight + "px");
-		var setNeckHeight = $("#robotMouth").css("height", getNeckShaperHeight + "px");
 	}; // end: setVarWidths()
 	//watch for a window resize the change the widths
 	setInterval( function () {
@@ -120,6 +119,8 @@ if( minText < 10 ){
 	var intro = ["hi",", i'm",  " the", " coolest", " robot", " you", " will", " ever", " meet.", " i' m" ," here", " to", " assist", " your", " every", " \"weather\"", " need!"];
 	//directions after intro
 	var directions = ["please ", "enter ", "your ", "city ", "in ", "my ", "nose..... ", "L ", "O ", "L ", "smiley ", "face."];
+	//forcaste functionality directtions
+	var forecastDirections = ["select", " a", " projected", " date", " box", " to", " get", " the", " forecast"];
 	//used to -> append "loading..." when waiting for weather results
 	var loading = ["loading..."];
 	//used to -> keeptrack of which box is highlighted for the robot talking effect
@@ -209,7 +210,16 @@ if( minText < 10 ){
 			//cache temp text -> indicates if the ajax request is complete
 			var tempText = $("#tempBig").text(); //if not complete -> the text is "?OF"
 			if (tempText != " ?OF"){
-				getReadyStatus = true;
+				//clear dialogue var
+				dialog = "";
+				//initiate the forcaste directions dialogue
+				talk(forecastDirections);
+				//initiate the talking effect
+				mouthHighlight(mouthData, 5);
+				//wait until 8sec to finish typing on the screen
+				setTimeout( function () {
+					getReadyStatus = true;
+				}, 800);
 				//stop checking
 				clearInterval(isAjaxComplete);
 			}
