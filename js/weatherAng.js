@@ -18,19 +18,22 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	$scope.humidityWeek = [];
 	$scope.pressureWeek = [];
 	$scope.cloudCoverWeek = [];
+	$scope.place = [];
 	//send ajax request for the weater if the enter key is preseed
 	$scope.init = function ($event) {
+		//cache the input value to check for city
+		var location = $("#city input").val();
+		//split the city and state
+		$scope.place = location.split(", ");
+		//change the state inpu to uppercase
+		var uppercaseState = $scope.place[1].toUpperCase();
+		$scope.place[1] = uppercaseState;
 		//the keycode for (enter) key is (13)
 		if ($event.keyCode ==  13) {
-			//cache the input value to use in the request link
-			var city = $("#city input").val();
-			//set the input value to the city
-			$scope.cityName = city;
-
 			//send the ajax request to recieve the city id
 			$http({
 				method : "GET",
-				url : "http://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.cityName
+				url : "http://chathamweatherapi.azurewebsites.net/api/cities/search?byName=" + $scope.place[0]
 			  }).then( getId, myError )
 				.then( getCoordinates, myError );
 		}
@@ -38,8 +41,19 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	};
 
 	var getId = function (response) {
+		//correct index for city
+		var index;
+		//cache response.data.predictions and length to search or the name in the loop
+		var responceCities = response.data.predictions;
+		var cityLength = responceCities.length;
+		//loop through results to find the correct city index
+		for ( var i = 0; i < cityLength; i++){
+			if ( $scope.place[1] === responceCities[i].terms[1].value ) {
+				index = i;
+			}
+		}
 		//get the city id
-		$scope.place_id = response.data.predictions[0].place_id;
+		$scope.place_id = response.data.predictions[index].place_id;
 	};
 
 	var getCoordinates = function () {
@@ -81,7 +95,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		$scope.temperature = response.data.currently.temperature;
 		$scope.apparentTemperature = response.data.currently.apparentTemperature;
 		$scope.date = response.data.currently.date;
-		$scope.humidity = (response.data.currently.humidity * 100) + "%";
+		$scope.humidity = response.data.currently.humidity;
 		$scope.pressure = response.data.currently.pressure;
 		//use the cached cloud cover to indicate how cloudy it is
 		if (cloudCoverAnalysisOne < 0.25){
@@ -101,7 +115,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 			$scope.temperatureMax[i] = response.data.futureForecasts[i].temperatureMax;
 			$scope.temperatureMin[i] = response.data.futureForecasts[i].temperatureMin;
 			$scope.dateWeek[i] = response.data.futureForecasts[i].date;
-			$scope.humidityWeek[i] = (response.data.futureForecasts[i].humidity * 100) + "%";
+			$scope.humidityWeek[i] = response.data.futureForecasts[i].humidity;
 			$scope.pressureWeek[i] = response.data.futureForecasts[i].pressure;
 			//use the cached cloud cover to indicate how cloudy it is
 			if (cloudCoverAnalysis < 0.25){

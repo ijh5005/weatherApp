@@ -118,7 +118,7 @@ if( minText < 10 ){
 	//introduction on page load (words appened at different im intervals to have a typing effect)
 	var intro = ["hi",", i'm",  " the", " coolest", " robot", " you", " will", " ever", " meet.", " i' m" ," here", " to", " assist", " your", " every", " \"weather\"", " need!"];
 	//directions after intro
-	var directions = ["please ", "enter ", "your ", "city ", "in ", "my ", "nose..... ", "L ", "O ", "L ", "smiley ", "face."];
+	var directions = ["please ", "enter ", "your ", "city ", "and ", "state ", "in ", "my ", "nose... <br> ", "L ", "O ", "L ", "smiley ", "face."];
 	//forcaste functionality directtions
 	var forecastDirections = ["select", " a", " projected", " date", " box", " to", " get", " the", " forecast"];
 	//used to -> append "loading..." when waiting for weather results
@@ -191,25 +191,15 @@ if( minText < 10 ){
 		//initiate talking effect
 		mouthHighlight(mouthData, 11);
 	}, 6400);
-////////// talking effect initiation complete //////////
-
-//append the loading array when a city is entered
-	$("input").keydown( function (event) {
-		if (event.keyCode ==  13) {
-			//clear dialogue var
-			dialog = "";
-			//display "loading..." while waiting for the ajax request
-			talk(loading);
-		}
-	});
 
 	//watch for ajax request to set readyStatus to true if there is weather information to show
 	//-> this starts after 8 secs because that is when the intro/description complete
 	setTimeout( function () {
 		var isAjaxComplete = setInterval( function () {
 			//cache temp text -> indicates if the ajax request is complete
-			var tempText = $("#tempBig").text(); //if not complete -> the text is "?OF"
-			if (tempText != " ?OF"){
+			var tempText = $("#tempBig").text(); //if not complete -> the text is " ?OF" without the binded data from weatherAng.js $http response
+			var areWeThereYet = (tempText != " ?OF");
+			if (areWeThereYet){
 				//clear dialogue var
 				dialog = "";
 				//initiate the forcaste directions dialogue
@@ -224,7 +214,20 @@ if( minText < 10 ){
 				clearInterval(isAjaxComplete);
 			}
 		}, 100);
-	}, 8050);
+	}, 4050);
+
+
+////////// talking effect initiation complete //////////
+
+//append the loading array when a city is entered
+	$("input").keydown( function (event) {
+		if (event.keyCode ==  13) {
+			//clear dialogue var
+			dialog = "";
+			//display "loading..." while waiting for the ajax request
+			talk(loading);
+		}
+	});
 	
 //report the weather
 	//the robot types the weather when a week result is clicked
