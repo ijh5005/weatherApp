@@ -54,6 +54,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		}
 		//get the city id
 		$scope.place_id = response.data.predictions[index].place_id;
+		$scope.cityName = response.data.predictions[index].description;
 	};
 
 	var getCoordinates = function () {
