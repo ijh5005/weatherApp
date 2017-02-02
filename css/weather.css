@@ -4,7 +4,6 @@
 
 body {
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
 	color: white;
 	font-family: 'Raleway', sans-serif;
 	font-size: 5em;
@@ -23,7 +22,6 @@ body {
 
 .shaper {
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
     float: left;
     height: 100%;
 }
@@ -43,7 +41,6 @@ body {
 .neckShaper {
     align-items: center;
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
     display: flex;
     flex-direction: column;
     float: left;
@@ -53,7 +50,6 @@ body {
 
 .cheekShaper {
 	background-image: url(../img/pageBackground.jpg);
-    background-size: 1rem;
     border-bottom-right-radius: 350px;
     height: 356px;
     position: relative;
@@ -68,13 +64,11 @@ body {
 
 #robotHead {
 	background-image: url(../img/pageBackground.jpg);
-    background-size: 1rem;
     border-bottom-left-radius: 260px;
 }
 
 #robotMouth {
 	background-image: url(../img/pageBackground.jpg);
-    background-size: 1rem;
     border-bottom-left-radius: 100px;
     float: left;
     height: 356px;
@@ -125,7 +119,6 @@ body {
 
 #blowUp #blowUpDisplay{
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
 	border-bottom-right-radius: 15px;
 	border-bottom-right-radius: 190px;
 	border-top-right-radius: 15px;
@@ -161,7 +154,6 @@ body {
 
 #glasses {
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
 	height: 44px;
 	float: left;
 	position: relative;
@@ -271,7 +263,6 @@ body {
 
 .weekResults {
 	background-image: url(../img/tempBackground.jpg);
-    background-size: 1rem;
     float: left;
     height: 104%;
     margin: 0.02em;

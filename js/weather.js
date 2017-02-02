@@ -118,7 +118,7 @@ if( minText < 10 ){
 	//introduction on page load (words appened at different im intervals to have a typing effect)
 	var intro = ["hi",", i'm",  " the", " coolest", " robot", " you", " will", " ever", " meet.", " i' m" ," here", " to", " assist", " your", " every", " \"weather\"", " need!"];
 	//directions after intro
-	var directions = ["please ", "enter ", "your ", "city ", "and ", "state ", "in ", "my ", "nose... <br> ", "L ", "O ", "L ", "smiley ", "face."];
+	var directions = ["please ", "enter ", "your ", "city ", "and ", "state ", "in ", "my ", "nose... <br> ", "L . ", "O . ", "L . ", "smiley ", "face."];
 	//forcaste functionality directtions
 	var forecastDirections = ["select", " a", " projected", " date", " box", " to", " get", " the", " forecast"];
 	//used to -> append "loading..." when waiting for weather results

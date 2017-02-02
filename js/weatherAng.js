@@ -23,6 +23,19 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	$scope.init = function ($event) {
 		//cache the input value to check for city
 		var location = $("#city input").val();
+		//correct input if the user doesn't put a space after the comma -> ex: Philadelphia, PA (the space is between "," and "PA")
+			//get the location of the comma
+			var commaLocation = location.indexOf(",");
+			//the spce should be one index after the commaLoaction
+			var spaceLocation = commaLocation + 1;
+			//cache bool for if statement
+			var spaceCheck = (location.charAt(spaceLocation) == " ");
+			//check to see if there is a space
+			if(!spaceCheck){
+				var addSpace = " ";
+				location = [location.slice(0, spaceLocation), addSpace, location.slice(spaceLocation)].join('');
+				console.log(location);
+			}
 		//split the city and state
 		$scope.place = location.split(", ");
 		//change the state inpu to uppercase
@@ -84,6 +97,8 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	};
 
 	var setWeather = function (response) {
+		//displays the 6th day in case there is another forest day added
+		$(".weekResults[data=6]").css("display", "none")
 		//show the current weather
 		$("#blowUpDisplay").children().show();
 		//indicate that the request for the weather information has come in
@@ -109,8 +124,12 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 			$scope.cloudCover = "Cloudy";
 		}
 
-		//set the values for the next five days
-		for( var i = 0; i < 6; i++){
+		//set the values for the following days
+		//cache the length of the follwing days
+		var len = response.data.futureForecasts.length;
+		//hides the 6th day if there is no additional forest day (sometimes the request comes back with a 6th day)
+		if (len == 5) { $(".weekResults[data=6]").css("display", "none"); }
+		for( var i = 0; i < len; i++){
 			//cache the cloud cover -> used to indicate how cloudy it is
 			var cloudCoverAnalysis = response.data.futureForecasts[i].cloudCover;
 			$scope.temperatureMax[i] = response.data.futureForecasts[i].temperatureMax;
