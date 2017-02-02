@@ -184,12 +184,15 @@ if( minText < 10 ){
 	talk(intro);
 	//change the page dialogue to the directions after intro is complete
 	setTimeout( function () {
-		//clear dialogue var
-		dialog = "";
-		//initiate directions
-		talk(directions);
-		//initiate talking effect
-		mouthHighlight(mouthData, 11);
+		//check to see if directions are needed -> data will equal ready when the weather request comes back (indicating the user knows how to work the app)
+		if ( $("#weekForecast").attr("data") != "ready"){
+			//clear dialogue var
+			dialog = "";
+			//initiate directions
+			talk(directions);
+			//initiate talking effect
+			mouthHighlight(mouthData, 11);
+		}
 	}, 6400);
 
 	//watch for ajax request to set readyStatus to true if there is weather information to show

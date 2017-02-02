@@ -32,15 +32,16 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 			var spaceCheck = (location.charAt(spaceLocation) == " ");
 			//check to see if there is a space
 			if(!spaceCheck){
+				//add a space if there is no space present
 				var addSpace = " ";
 				location = [location.slice(0, spaceLocation), addSpace, location.slice(spaceLocation)].join('');
-				console.log(location);
 			}
 		//split the city and state
 		$scope.place = location.split(", ");
 		//change the state inpu to uppercase
-		var uppercaseState = $scope.place[1].toUpperCase();
+		var uppercaseState = angular.uppercase($scope.place[1]);
 		$scope.place[1] = uppercaseState;
+		
 		//the keycode for (enter) key is (13)
 		if ($event.keyCode ==  13) {
 			//send the ajax request to recieve the city id
