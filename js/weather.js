@@ -3,7 +3,7 @@
 $(document).ready( function () {
 //goal: animate the week results when the city is entered
 	//slide up and slide down effect when the city is entered
-	var animateWeekResults = function (selector, delay) {
+	const animateWeekResults = (selector, delay) => {
 		//each week result will slide up at different times -> set a delay option
 		setTimeout( function () {
 			//slide up...
@@ -20,24 +20,24 @@ $(document).ready( function () {
 	}; // end: animateWeekResults()
 
 	//checks the animation completeness status
-	var animateCheck = function (selector) {
+	const animateCheck = (selector) => {
 		//check the animaing attribute to check which result is still being animated
 		var isAnimating = $(selector).attr("animating");
 		//check to see if the ajax request for weather data came in -> this is updated in weatherAng.js -> used with the "loading..." feature
 		var isReady = $("#weekForecast").attr("data");
 		//display the weather results only if the animation is complete and the ajax request is back
 		if (isAnimating === "false" && isReady === "ready") {
-			$(selector).children().show()
+			$(selector).children().show();
 		}
 	}; // end: animateCheck()
 
 	//initate the animation when the enter button is clicked
-	$("input").keydown( function (event) {
+	$("input").keydown( (event) => {
 		//the (keyCode) for the enter button equals (13)
-		if (event.keyCode ==  13) {
+		if (event.keyCode ===  13) {
 			//hide any current weather results
 			$(".weekResults").children().hide();
-			//set the animation status to ready
+			//set the animation status to true
 			$(".weekResults").attr("animating", "true");
 			//set the isReady status to not ready
 			$("#weekForecast").attr("data", "notReady");
@@ -63,20 +63,13 @@ $(document).ready( function () {
 	}); // end: $("input").keydown()
 ////////// animation goal complete //////////
 
-// adjust min if less then 10
-//cache minutes text
-var minText = $("#minCheck").text();
-if( minText < 10 ){
-	//add a zero if the number is less than 10 -> preserves military time
-	$("#minCheck").text("0"+minText);
-}
 
-//hide all blank weather data in page load
+//hide all blank weather data on page load
 	$(".weekResults").children().hide();
 	$("#blowUpDisplay").children().hide();
 
 //pause the sliding image onclick
-	$("#img").click( function () {
+	$("#img").click( () => {
 		//cache the current pause status
 		var isPaused = $(this).css("animation-play-state");
 		//toggle image pause
@@ -84,7 +77,7 @@ if( minText < 10 ){
 	});
 
 //dynamically change widths when windoww is resized -> maintains the page look
-	var setVarWidths = function () {
+	const setVarWidths = () => {
 		//get the current window width
 		var viewPortWidth = $(window).width();
 		//get the current body width
@@ -98,13 +91,13 @@ if( minText < 10 ){
 		var getShaperWidth = ( bodyWidth - getRobotFaceWidth ) / 2;
 		var getCheekShaperHeight = ( getRobotFaceHeight - getRobotHeadHeight );
 		
-		//set the calculate widths
+		//set the calculated widths
 		var setCityWidth = $("#city").css("width", setCityWidth + "px");
 		var setWeekForecastWidth = $("#weekForecast").css("width", bodyWidth + "px");
 		var setShaperWidth = $(".shaper").css("width", getShaperWidth + "px");
 	}; // end: setVarWidths()
 	//watch for a window resize the change the widths
-	setInterval( function () {
+	setInterval( () => {
 		setVarWidths();
 	}, 10);
 ////////// dynamic width changes complete //////////
@@ -115,7 +108,7 @@ if( minText < 10 ){
 	var getReadyStatus = false;
 	//dialogue to be appended to the page when dynamically filled
 	var dialog = "";
-	//introduction on page load (words appened at different im intervals to have a typing effect)
+	//introduction on page load (words appened at different time intervals to have a typing effect)
 	var intro = ["hi",", i'm",  " the", " coolest", " robot", " you", " will", " ever", " meet.", " i' m" ," here", " to", " assist", " your", " every", " \"weather\"", " need!"];
 	//directions after intro
 	var directions = ["please ", "enter ", "your ", "city ", "and ", "state ", "in ", "my ", "nose... <br> ", "L . ", "O . ", "L . ", "smiley ", "face."];
@@ -132,7 +125,7 @@ if( minText < 10 ){
 
 //make the robot talk
 	//talk function
-	var talk = function (array) {
+	var talk = (array) => {
 		//get length of which dialogue array is passed in
 		var length = array.length;
 		//tracks the end of the dialogue
@@ -151,7 +144,7 @@ if( minText < 10 ){
 		}, 100);
 	}; // end: talk()
 	//highlight the weekresult boxs to have a talking effect
-	var mouthHighlight = function (array, time){
+	var mouthHighlight = (array, time) => {
 		//trackers
 		var end = 0;
 		var index = 0;
@@ -183,7 +176,7 @@ if( minText < 10 ){
 	//initiate page typying effect
 	talk(intro);
 	//change the page dialogue to the directions after intro is complete
-	setTimeout( function () {
+	setTimeout( () => {
 		//check to see if directions are needed -> data will equal ready when the weather request comes back (indicating the user knows how to work the app)
 		if ( $("#weekForecast").attr("data") != "ready"){
 			//clear dialogue var
@@ -197,8 +190,8 @@ if( minText < 10 ){
 
 	//watch for ajax request to set readyStatus to true if there is weather information to show
 	//-> this starts after 8 secs because that is when the intro/description complete
-	setTimeout( function () {
-		var isAjaxComplete = setInterval( function () {
+	setTimeout( () => {
+		var isAjaxComplete = setInterval( () => {
 			//cache temp text -> indicates if the ajax request is complete
 			var tempText = $("#tempBig").text(); //if not complete -> the text is " ?OF" without the binded data from weatherAng.js $http response
 			var areWeThereYet = (tempText != " ?OF");
@@ -223,7 +216,7 @@ if( minText < 10 ){
 ////////// talking effect initiation complete //////////
 
 //append the loading array when a city is entered
-	$("input").keydown( function (event) {
+	$("input").keydown( (event) => {
 		if (event.keyCode ==  13) {
 			//clear dialogue var
 			dialog = "";
@@ -234,7 +227,7 @@ if( minText < 10 ){
 	
 //report the weather
 	//the robot types the weather when a week result is clicked
-	$(".weekResults").click( function () {
+	$(".weekResults").click( () => {
 		//check for ready status first
 		if( getReadyStatus === true ){
 			//disable weather reporting until done typing the current report
@@ -273,7 +266,7 @@ if( minText < 10 ){
 			mouthHighlight(mouthData, 17);
 
 			//set the getReadyStatus back to true after animation is complete
-			setTimeout( function () {
+			setTimeout( () => {
 				getReadyStatus = true;
 			}, 2800);
 		} // end: if( getReadyStatus === true )

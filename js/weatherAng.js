@@ -1,6 +1,6 @@
 var weatherApp = angular.module('myWeatherApp', []);
 
-weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
+weatherApp.controller('myWeatherCtrl', ($scope, $http, $log) => {
 	//vars
 	$scope.cityName = "city";
 	$scope.place_id = "";
@@ -19,8 +19,11 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 	$scope.pressureWeek = [];
 	$scope.cloudCoverWeek = [];
 	$scope.place = [];
+	$scope.states = [
+    	{ appr: "AL", fullName: "Alabama" }, { appr: "AK", fullName: "Alaska" }, { appr: "AZ", fullName: "Arizona" }, { appr: "AR", fullName: "Arkansas" }, { appr: "CA", fullName: "California" }, { appr: "CO", fullName: "Colorado" }, { appr: "CT", fullName: "Connecticut" }, { appr: "DE", fullName: "Delaware" }, { appr: "FL", fullName: "Florida" }, { appr: "GA", fullName: "Georgia" }, { appr: "HI", fullName: "Hawaii" }, { appr: "ID", fullName: "Idaho" }, { appr: "IL", fullName: "Illinois" }, { appr: "IN", fullName: "Indiana" }, { appr: "IA", fullName: "Iowa" }, { appr: "KS", fullName: "Kansas" }, { appr: "KY", fullName: "Kentucky" }, { appr: "LA", fullName: "Louisiana" }, { appr: "ME", fullName: "Maine" }, { appr: "MD", fullName: "Maryland" }, { appr: "MA", fullName: "Massachusetts" }, { appr: "MI", fullName: "Michigan" }, { appr: "MN", fullName: "Minnesota" }, { appr: "MS", fullName: "Mississippi" }, { appr: "MO", fullName: "Missouri" }, { appr: "MT", fullName: "Montana" }, { appr: "NE", fullName: "Nebraska" }, { appr: "NV", fullName: "Nevada" }, { appr: "NH", fullName: "New Hampshire" }, { appr: "NJ", fullName: "New Jersey" }, { appr: "NM", fullName: "New Mexico" }, { appr: "NY", fullName: "New York" }, { appr: "NC", fullName: "North Carolina" }, { appr: "ND", fullName: "North Dakota" }, { appr: "OH", fullName: "Ohio" }, { appr: "OK", fullName: "Oklahoma" }, { appr: "OR", fullName: "Oregon" }, { appr: "PA", fullName: "Pennsylvania" }, { appr: "RI", fullName: "Rhode Island" }, { appr: "SC", fullName: "South Carolina" }, { appr: "SD", fullName: "South Dakota" }, { appr: "TN", fullName: "Tennessee" }, { appr: "TX", fullName: "Texas" }, { appr: "UT", fullName: "Utah" }, { appr: "VT", fullName: "Vermont" }, { appr: "VA", fullName: "Virginia" }, { appr: "WA", fullName: "Washington" }, { appr: "WV", fullName: "West Virginia" }, { appr: "WI", fullName: "Wisconsin" }, { appr: "WY", fullName: "Wyoming" }
+	];
 	//send ajax request for the weater if the enter key is preseed
-	$scope.init = function ($event) {
+	$scope.init = ($event) => {
 		//cache the input value to check for city
 		var location = $("#city input").val();
 		//correct input if the user doesn't put a space after the comma -> ex: Philadelphia, PA (the space is between "," and "PA")
@@ -40,6 +43,12 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		$scope.place = location.split(", ");
 		//change the state inpu to uppercase
 		var uppercaseState = angular.uppercase($scope.place[1]);
+		//appreviate the state input if not done by user
+			//get $scope.states length to use it to replace the state if not appreviated
+			console.log( $scope.place[1].length );
+			const statesLen = $scope.states.length;
+			console.log(statesLen);
+			//for()
 		$scope.place[1] = uppercaseState;
 		
 		//the keycode for (enter) key is (13)
@@ -54,7 +63,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 
 	};
 
-	var getId = function (response) {
+	const getId = (response) => {
 		//correct index for city
 		var index;
 		//cache response.data.predictions and length to search or the name in the loop
@@ -71,7 +80,7 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		$scope.cityName = response.data.predictions[index].description;
 	};
 
-	var getCoordinates = function () {
+	const getCoordinates = () => {
 		//use the city id to get the latitude(lat) and longitude(lng) from the request json
 		$http({
 			method : "GET",
@@ -81,14 +90,14 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 
 	};
 
-	var setCoordinates = function (response) {
+	const setCoordinates = (response) => {
 		//set the latitude(lat) and longitude(lng)
 		$scope.lat = response.data.result.geometry.location.lat;
 		$scope.lng = response.data.result.geometry.location.lng;
 
 	};
 
-	var getWeather = function (response) {
+	const getWeather = (response) => {
 		//use the latitude(lat) and longitude(lng) to get the weather information from the request json
 		$http({
 			method : "GET",
@@ -97,13 +106,13 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		
 	};
 
-	var setWeather = function (response) {
-		//displays the 6th day in case there is another forest day added
-		$(".weekResults[data=6]").css("display", "none")
+	const setWeather = (response) => {
 		//show the current weather
 		$("#blowUpDisplay").children().show();
 		//indicate that the request for the weather information has come in
 		$("#weekForecast").attr("data", "ready");
+		//reset the 6th weather forcast to notReady until it is confirmed that the data is recieved -> this is checked seperately
+		$(".resultsPlaceholder:last-child").css("display", "none");
 		//clear the dialogue
 		$("#talk").html("");
 		//cache the cloud cover -> used to indicate how cloudy it is
@@ -128,8 +137,11 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 		//set the values for the following days
 		//cache the length of the follwing days
 		var len = response.data.futureForecasts.length;
+		console.log(response.data.futureForecasts);
 		//hides the 6th day if there is no additional forest day (sometimes the request comes back with a 6th day)
-		if (len == 5) { $(".weekResults[data=6]").css("display", "none"); }
+		if (len === 6) { 
+			$(".resultsPlaceholder:last-child").css("display", "");
+		}
 		for( var i = 0; i < len; i++){
 			//cache the cloud cover -> used to indicate how cloudy it is
 			var cloudCoverAnalysis = response.data.futureForecasts[i].cloudCover;
@@ -149,10 +161,10 @@ weatherApp.controller('myWeatherCtrl', function ($scope, $http, $log) {
 				$scope.cloudCoverWeek[i] = "Cloudy";
 			}
 		}
-	};
+	}; // end: setWeather()
 
 	//error handler
-	var myError = function (reason) {
+	const myError = (reason) => {
 		$log.info(reason.data);
 		$("input").val("please enter a valid city");
 	};

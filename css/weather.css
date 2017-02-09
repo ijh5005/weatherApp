@@ -271,6 +271,10 @@ body {
     width: 2em;
 }
 
+.weekResults[data="6"] {
+	display: none;
+}
+
 .talk {
 	background-image: url(../img/blue.jpg);
 }
